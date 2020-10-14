@@ -1,5 +1,5 @@
-name: 'Hello World'
-description: 'Greet someone'
+name: 'PureScript Doc Check'
+description: 'Compile all PureScript docs in your poject'
 inputs:
   who-to-greet:  # id of input
     description: 'Who to greet'
