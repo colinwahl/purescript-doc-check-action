@@ -1,0 +1,16 @@
+{
+  "name": "hello-world-purescript-action",
+  "description": "An example action written using purescript-github-actions-toolkit",
+  "author": "Colin Wahl",
+  "license": "MIT",
+  "main": "index.js",
+  "scripts": {
+    "build": "spago bundle-module --to output/index.js && ncc build --minify index.js"
+  },
+  "dependencies": {
+    "@actions/core": "^1.2.5"
+  },
+  "devDependencies": {
+    "@vercel/ncc": "^0.24.0"
+  }
+}
