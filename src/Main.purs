@@ -26,6 +26,7 @@ main = do
       let
         path = "doc-test/test" <> show ix <> ".purs"
       lift $ liftEffect $ Sync.writeTextFile UTF8 path (moduleTemplate ix code)
+    _ <- Exec.exec' "ls"
     _ <- Exec.exec' "ls doc-test"
     _ <- Exec.exec' "cat doc-test/test0.purs"
     Exec.exec' "spago build --path 'doc-test/test0.purs'"
@@ -33,7 +34,8 @@ main = do
 moduleTemplate :: Int -> String -> String
 moduleTemplate ix code =
   Array.intercalate "\n"
-    [ "module Test" <> show ix <> "where"
+    [ "module Test" <> show ix <> " where"
+    , ""
     , "import Prelude"
     , ""
     , code
