@@ -25,4 +25,5 @@ main = do
       let
         path = "doc-test/test" <> show ix <> ".purs"
       lift $ liftEffect $ Sync.writeTextFile UTF8 path code
+    _ <- Exec.exec' "ls"
     Exec.exec' "spago build --path 'doc-test/*.purs'"
