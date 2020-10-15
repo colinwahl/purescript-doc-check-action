@@ -9,10 +9,7 @@ exports.getCodeBlocks = markdown => {
       (token.lang === "purs" || token.lang === "purescript")
     ) {
       return token.text;
-    } else if (token.tokens) {
-      return getCodeFromToken(token);
     }
-    return [];
   };
-  return tokens.flatMap(getCodeFromToken);
+  return tokens.map(getCodeFromToken);
 };
