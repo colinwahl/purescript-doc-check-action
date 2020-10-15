@@ -6,6 +6,7 @@ You can edit this file as you like.
 , dependencies =
   [ "console"
   , "effect"
+  , "foldable-traversable"
   , "node-fs"
   , "psci-support"
   , "purescript-github-actions-toolkit"

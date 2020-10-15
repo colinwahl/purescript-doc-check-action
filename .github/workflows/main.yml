@@ -3,15 +3,10 @@ on: [push]
 jobs:
   hello_world_job:
     runs-on: ubuntu-latest
-    name: A job to say hello
+    name: Check PureScript Docs
     steps:
-    - name: Checkout
-      uses: actions/checkout@v2
-    - name: Hello world action step
-      id: hello
+    - uses: actions/checkout@v2
+    - name: Set up PureScript toolchain
+      uses: purescript-contrib/setup-purescript@main
+    - name: Check PureScript docs
       uses: ./
-      with:
-        who-to-greet: 'PureScript User'
-    # Use the output from the `hello` step
-    - name: Get a description of the PureScript language
-      run: echo "What is PureScript? ${{ steps.hello.outputs.what-is-purescript }}"
