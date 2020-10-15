@@ -11,5 +11,5 @@ exports.getCodeBlocks = markdown => {
       return token.text;
     }
   };
-  return tokens.map(getCodeFromToken);
+  return tokens.map(getCodeFromToken).filter(x => x);
 };
