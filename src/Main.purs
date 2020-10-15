@@ -27,7 +27,8 @@ main = do
         path = "doc-test/test" <> show ix <> ".purs"
       lift $ liftEffect $ Sync.writeTextFile UTF8 path (moduleTemplate ix code)
     _ <- Exec.exec' "ls doc-test"
-    Exec.exec' "spago build --path 'doc-test/*.purs'"
+    _ <- Exec.exec' "cat doc-test/test0.purs"
+    Exec.exec' "spago build --path 'doc-test/test0.purs'"
 
 moduleTemplate :: Int -> String -> String
 moduleTemplate ix code =
