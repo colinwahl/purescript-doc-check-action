@@ -4,6 +4,7 @@ import Prelude
 
 import Control.Monad.Except.Trans (runExceptT)
 import Control.Monad.Trans.Class (lift)
+import Data.Array as Array
 import Data.TraversableWithIndex (forWithIndex)
 import Effect (Effect)
 import Effect.Aff (launchAff_)
@@ -24,6 +25,15 @@ main = do
     _ <- forWithIndex readmeCodeBlocks \ix code -> do
       let
         path = "doc-test/test" <> show ix <> ".purs"
-      lift $ liftEffect $ Sync.writeTextFile UTF8 path code
+      lift $ liftEffect $ Sync.writeTextFile UTF8 path (moduleTemplate ix code)
     _ <- Exec.exec' "ls doc-test"
     Exec.exec' "spago build --path 'doc-test/*.purs'"
+
+moduleTemplate :: Int -> String -> String
+moduleTemplate ix code =
+  Array.intercalate "\n"
+    [ "module Test" <> show ix <> "where"
+    , "import Prelude"
+    , ""
+    , code
+    ]
