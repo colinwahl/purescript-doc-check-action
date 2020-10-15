@@ -8,7 +8,8 @@
     "build": "spago bundle-module --to output/index.js && ncc build --minify index.js"
   },
   "dependencies": {
-    "@actions/core": "^1.2.5"
+    "@actions/core": "^1.2.5",
+    "marked": "^1.2.0"
   },
   "devDependencies": {
     "@vercel/ncc": "^0.24.0"
