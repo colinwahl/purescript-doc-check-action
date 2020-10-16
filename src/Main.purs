@@ -22,10 +22,10 @@ main = do
     readmeCodeBlocks = getCodeBlocks readme
   launchAff_ $ runExceptT do
     IO.mkdirP { fsPath: "doc-test" }
-    res <- forWithIndex readmeCodeBlocks \ix code -> do
+    res <- lift $ liftEffect $ forWithIndex readmeCodeBlocks \ix code -> do
       let
         path = "doc-test/test" <> show ix <> ".purs"
-      lift $ liftEffect $ Sync.writeTextFile UTF8 path (moduleTemplate ix code)
+      Sync.writeTextFile UTF8 path (moduleTemplate ix code)
     let
       compile = \_ -> do
         _ <- Exec.exec' "ls"
