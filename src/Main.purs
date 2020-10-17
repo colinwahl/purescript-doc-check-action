@@ -2,6 +2,7 @@ module Main where
 
 import Prelude
 
+import Control.Monad.Error.Class (catchError)
 import Control.Monad.Except.Trans (runExceptT)
 import Control.Monad.Trans.Class (lift)
 import Data.Array as Array
@@ -26,7 +27,8 @@ import Node.FS.Sync as Sync
 main :: Effect Unit
 main = do
   readme <- Sync.readTextFile UTF8 "./README.md"
-  docs <- Sync.readdir "docs"
+  docs <- catchError (Sync.readdir "docs") mempty
+
   let
     docMarkdown = Array.filter (Regex.test markdownRegex) docs
 
