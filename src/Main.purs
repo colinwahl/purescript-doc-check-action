@@ -31,7 +31,7 @@ main = do
         _ <- Exec.exec' "ls"
         _ <- Exec.exec' "ls doc-test"
         _ <- Exec.exec' "cat doc-test/test0.purs"
-        Exec.exec' "spago build --path 'doc-test/test0.purs'"
+        Exec.exec' "spago build --path 'src/**/*.purs doc-test/test0.purs'"
     compile res
 
 moduleTemplate :: Int -> String -> String
