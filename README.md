@@ -1,49 +1,25 @@
-# Hello world PureScript action
+# PureScript Doc Check
 
-```purescript
-x :: Int
-x = "hello"
-```
+This action checks that the docs in your PureScript repository compile.
 
-```purescript
-x :: Int
-x = 100 + 2
-```
-
-
-```purescript
-x :: Int
-x = 100
-```
-
-
-This action prints "Hello" + the name of a person to greet to the log. This is a [PureScript](https://github.com/purescript/purescript) port of "[Creating a JavaScript action](https://help.github.com/en/articles/creating-a-javascript-action)" in the GitHub Help documentation.  
+The action will find the markdown files in your repository (files with the `.md` extension) and pull out all code fences with the language "purescript" or "purs". It will then make a module for each code block in a directory called `doc-test`. Lastly it runs `spago build` to install dependencies and compile the code in your documentation. If the docs don't compile, then the build fails!
 
 # Usage
 
-This repository serves as a template for creating more advanced Actions in [PureScript](https://github.com/purescript/purescript).  
+Make sure to add "doc-test/*.purs" to the `sources` entry in your `spago.dhall` in order to run the compiler on the generated modules.
+- This won't change your normal compilation workflows as these files will not exist locally.
 
-To create your own [Action](https://github.com/features/actions) via PureScript, expand this template by defining your Action in PureScript in the `src` directory. Once that is defined, you can update `action.yml` to specify usage. Then you just need to run `npm run-script build` to bundle your PureScript Action into the `dist/index.js` file before publishing!
-
-See [GitHub's docs on Actions](https://docs.github.com/en/actions) for in-depth information on Actions.
-See [purescript-github-actions-toolkit](https://github.com/colinwahl/purescript-github-actions-toolkit) for documentation on the PureScript bindings to Github's Actions Toolkit.
-
-## Inputs
-
-### `who-to-greet`
-
-**Required** The name of the person to greet. Default `"PureScript User"`.
-
-## Outputs
-
-### `what-is-purescript`
-
-A description of the PureScript language.
-
-## Example usage
+## Example usage (in your github workflow yaml file)
 
 ```yaml
-uses: hello-world-purescript-action@main
-with:
-  who-to-greet: 'PureScript User'
+jobs:
+  ...
+  doc-check-job:
+    runs-on: ubuntu-latest
+    name: Job to check PureScript Docs
+    steps:
+      - name: Set up PureScript toolchain
+        uses: purescript-contrib/setup-purescript@main
+      - name: Check PureScript Docs
+        uses: purescript-doc-check@main
 ```
