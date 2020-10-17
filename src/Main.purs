@@ -6,6 +6,11 @@ import Control.Monad.Except.Trans (runExceptT)
 import Control.Monad.Trans.Class (lift)
 import Data.Array as Array
 import Data.Either (Either(..))
+import Data.String.Regex (Regex)
+import Data.String.Regex as Regex
+import Data.String.Regex.Flags (noFlags)
+import Data.String.Regex.Unsafe (unsafeRegex)
+import Data.Traversable (traverse)
 import Data.TraversableWithIndex (forWithIndex)
 import Effect (Effect)
 import Effect.Aff (runAff_)
@@ -21,8 +26,16 @@ import Node.FS.Sync as Sync
 main :: Effect Unit
 main = do
   readme <- Sync.readTextFile UTF8 "./README.md"
+  docs <- Sync.readdir "docs"
   let
-    readmeCodeBlocks = getCodeBlocks readme
+    docMarkdown = Array.filter (Regex.test markdownRegex) docs
+
+  docsFiles <- traverse (Sync.readTextFile UTF8) docs
+
+  let
+    allMarkdown = [ readme ] <> docsFiles
+
+    pursCodeBlocks = allMarkdown >>= getCodeBlocks
 
     completed = join >>> case _ of
       Left err -> Core.setFailed (Error.message err)
@@ -32,7 +45,7 @@ main = do
 
   runAff_ completed $ runExceptT do
     IO.mkdirP { fsPath: "doc-test" }
-    _ <- lift $ liftEffect $ forWithIndex readmeCodeBlocks \ix code -> do
+    _ <- lift $ liftEffect $ forWithIndex pursCodeBlocks \ix code -> do
       let
         path = "doc-test/test" <> show ix <> ".purs"
       Sync.writeTextFile UTF8 path (moduleTemplate ix code)
@@ -47,3 +60,6 @@ moduleTemplate ix code =
     , ""
     , code
     ]
+
+markdownRegex :: Regex
+markdownRegex = unsafeRegex "\\.md$" noFlags
