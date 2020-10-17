@@ -5,6 +5,18 @@ x :: Int
 x = "hello"
 ```
 
+```purescript
+x :: Int
+x = 100 + 2
+```
+
+
+```purescript
+x :: Int
+x = 100
+```
+
+
 This action prints "Hello" + the name of a person to greet to the log. This is a [PureScript](https://github.com/purescript/purescript) port of "[Creating a JavaScript action](https://help.github.com/en/articles/creating-a-javascript-action)" in the GitHub Help documentation.  
 
 # Usage
