@@ -2,6 +2,7 @@ on: [push]
 
 jobs:
   doc-check-job:
+    runs-on: ubuntu-latest
     name: Check PureScript Docs
     steps:
     - uses: actions/checkout@v2
