@@ -21,6 +21,7 @@ main = do
   let
     readmeCodeBlocks = getCodeBlocks readme
   launchAff_ $ runExceptT do
+    IO.rmRF { inputPath: "output" }
     IO.mkdirP { fsPath: "doc-test" }
     res <- lift $ liftEffect $ forWithIndex readmeCodeBlocks \ix code -> do
       let
