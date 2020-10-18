@@ -23,6 +23,7 @@ import GitHub.Actions.IO as IO
 import Marked (getCodeBlocks)
 import Node.Encoding (Encoding(..))
 import Node.FS.Sync as Sync
+import Node.Path (FilePath)
 
 main :: Effect Unit
 main = do
@@ -47,11 +48,12 @@ main = do
 
   runAff_ completed $ runExceptT do
     IO.mkdirP { fsPath: "doc-test" }
-    _ <- lift $ liftEffect $ forWithIndex pursCodeBlocks \ix code -> do
+    testPaths <- lift $ liftEffect $ forWithIndex pursCodeBlocks \ix code -> do
       let
         path = "doc-test/test" <> show ix <> ".purs"
       Sync.writeTextFile UTF8 path (moduleTemplate ix code)
-    Exec.exec' "spago build --path 'doc-test/*.purs'"
+      pure path
+    Exec.exec' "spago build "
 
 moduleTemplate :: Int -> String -> String
 moduleTemplate ix code =
@@ -65,3 +67,9 @@ moduleTemplate ix code =
 
 markdownRegex :: Regex
 markdownRegex = unsafeRegex "\\.md$" noFlags
+
+compileCommand :: Array FilePath -> String
+compileCommand testPaths = "spago build " <> Array.intercalate " " (map go testPaths)
+  where
+  go :: FilePath -> String
+  go fp = "--path '" <> fp <> "'"
