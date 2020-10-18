@@ -53,7 +53,7 @@ main = do
         path = "doc-test/test" <> show ix <> ".purs"
       Sync.writeTextFile UTF8 path (moduleTemplate ix code)
       pure path
-    Exec.exec' "spago build "
+    Exec.exec' (compileCommand testPaths)
 
 moduleTemplate :: Int -> String -> String
 moduleTemplate ix code =
