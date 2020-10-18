@@ -69,7 +69,4 @@ markdownRegex :: Regex
 markdownRegex = unsafeRegex "\\.md$" noFlags
 
 compileCommand :: Array FilePath -> String
-compileCommand testPaths = "spago build " <> Array.intercalate " " (map go testPaths)
-  where
-  go :: FilePath -> String
-  go fp = "--path '" <> fp <> "'"
+compileCommand testPaths = "spago build --path 'doc-test/*.purs'"
