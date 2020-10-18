@@ -12,5 +12,5 @@ You can edit this file as you like.
   , "purescript-github-actions-toolkit"
   ]
 , packages = ./packages.dhall
-, sources = [ "src/**/*.purs", "doc-test/*.purs" ]
+, sources = [ "src/**/*.purs" ]
 }

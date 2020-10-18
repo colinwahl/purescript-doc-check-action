@@ -1,5 +1,10 @@
 # PureScript Doc Check
 
+```purescript
+x :: Int
+x = "hello"
+```
+
 This action checks that the docs in your PureScript repository compile.
 
 The action will find the markdown files in your repository (files with the `.md` extension) and pull out all code fences with the language "purescript" or "purs". It will then make a module for each code block in a directory called `doc-test`. Lastly it runs `spago build` to install dependencies and compile the code in your documentation. If the docs don't compile, then the build fails!

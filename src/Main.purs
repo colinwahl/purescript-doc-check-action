@@ -51,7 +51,7 @@ main = do
       let
         path = "doc-test/test" <> show ix <> ".purs"
       Sync.writeTextFile UTF8 path (moduleTemplate ix code)
-    Exec.exec' "spago build"
+    Exec.exec' "spago build --path 'doc-test/*.purs'"
 
 moduleTemplate :: Int -> String -> String
 moduleTemplate ix code =
