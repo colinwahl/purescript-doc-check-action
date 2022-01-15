@@ -11,7 +11,7 @@
     "@actions/core": "^1.2.5",
     "@actions/exec": "^1.0.4",
     "@actions/io": "^1.0.2",
-    "marked": "^1.2.0"
+    "marked": "^4.0.10"
   },
   "devDependencies": {
     "@vercel/ncc": "^0.24.0"
